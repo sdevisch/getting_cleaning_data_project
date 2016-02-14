@@ -31,18 +31,18 @@ testSubjects <- read.table("test/subject_test.txt")
 test <- cbind(testSubjects, testActivities, test)
 
 # merge datasets and add labels
-allData <- rbind(train, test)
-colnames(allData) <- c("subject", "activity", featureWNames)
+theData <- rbind(train, test)
+colnames(theData) <- c("subject", "activity", featureWNames)
 
 # turn activities & subjects into factors
-allData$activity <- factor(allData$activity, levels = activityLabels[,1], labels = activityLabels[,2])
-allData$subject <- as.factor(allData$subject)
+theData$activity <- factor(theData$activity, levels = activityLabels[,1], labels = activityLabels[,2])
+theData$subject <- as.factor(theData$subject)
 
 #  melt takes wide-format data and melts it into long-format data
 # see http://seananderson.ca/2013/10/19/reshape.html
-allData.melted <- melt(allData, id = c("subject", "activity"))
+theData.melted <- melt(theData, id = c("subject", "activity"))
 # dcast takes long-format data and turns it into wide format data
 # where rows are not unique, the data is summarized by teh provide function lIn this case "mean"
-allData.mean <- dcast(allData.melted, subject + activity ~ variable, mean)
+theData.mean <- dcast(theData.melted, subject + activity ~ variable, mean)
 
-write.table(allData.mean, "tidy.txt", row.names = FALSE, quote = FALSE)
+write.table(theData.mean, "tidy.txt", row.names = FALSE, quote = FALSE)
